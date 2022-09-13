@@ -31,13 +31,20 @@ def leap_year(x):
         return False
 
 
-#Debut du code
+# Debut du code
 x = input("Saisissez une date avec le format jj/mm/aaa ")
 jj, mm, aaaa, soe, ss = give_the_date(x)
 
-if aaaa < 1600 and aaaa > 2199:
+if aaaa <= 1500 or aaaa >= 2200:
+    print("Cette date n'est pas prise en charge, veuillez recommencer le processus")
+elif mm == 2:
+    if leap_year(aaaa) and jj > 29:
+        print("Cette saisie est incorrecte, veuillez recommencer le processus")
+    elif jj > 28:
+        print("Cette saisie est incorrecte, veuillez recommencer le processus")
+elif mm < 1 or mm >= 13:
     print("Cette saisie est incorrecte, veuillez recommencer le processus")
-elif jj > 31:
+elif jj < 1 or jj > 31:
     print("Cette saisie est incorrecte, veuillez recommencer le processus")
 else:
     soe = soe // 4 + soe + jj + mois[mm][1] + annee[ss]
@@ -45,26 +52,25 @@ else:
         if mm == 1 or mm == 2:
             soe = soe - 1
     jour = soe % 7
+    date = datetime.datetime.today()
+    year = int(date.year)
+    month = int(date.month)
+    day = int(date.day)
 
-date = datetime.datetime.today()
-year = int(date.year)
-month = int(date.month)
-day = int(date.day)
-
- #Optionnel
-if aaaa<year :
-    print("le %s était un %s" % (x, semaine[jour]))
-elif aaaa==year :
-    if mm<month :
+    # Optionnel
+    if aaaa < year:
         print("le %s était un %s" % (x, semaine[jour]))
-    elif mm==month :
-        if jj<day:
+    elif aaaa == year:
+        if mm < month:
             print("le %s était un %s" % (x, semaine[jour]))
-        elif jj==day:
-            print("Aujourd'hui est un %s" % (semaine[jour]))
+        elif mm == month:
+            if jj < day:
+                print("le %s était un %s" % (x, semaine[jour]))
+            elif jj == day:
+                print("Aujourd'hui est un %s" % (semaine[jour]))
+            else:
+                print("le %s sera un %s" % (x, semaine[jour]))
         else:
             print("le %s sera un %s" % (x, semaine[jour]))
     else:
         print("le %s sera un %s" % (x, semaine[jour]))
-else:
-    print("le %s sera un %s" % (x, semaine[jour]))
